@@ -16,3 +16,10 @@ model Todo {
   text      String
   completed Boolean
 }
+
+model Teste {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  nome      String
+  sobrenome String
+}
