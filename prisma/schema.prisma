@@ -23,3 +23,11 @@ model Teste {
   nome      String
   sobrenome String
 }
+
+model Cadastro {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  nome      String
+  email     String
+  senha     String
+}

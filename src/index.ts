@@ -30,6 +30,37 @@ app.post("/todos", async (req, res) => {
   return res.json(todo);
 });
 
+app.post("/cadastros", async (req, res) => {
+  try {
+    const { nome, email, senha } = req.body;
+
+    const cadastro = await prisma.cadastro.create({
+      data: {
+        nome,
+        email,
+        senha,
+      },
+    });
+
+    return res.json(cadastro);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao criar o cadastro." });
+  }
+});
+
+app.get("/testes", async (req, res) => {
+  try {
+    const testes = await prisma.teste.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    res.json(testes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Erro ao buscar os registros." });
+  }
+});
+
 app.get("/todos/:id", async (req, res) => {
   const id = req.params.id;
   const todo = await prisma.todo.findUnique({
