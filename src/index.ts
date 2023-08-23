@@ -12,7 +12,7 @@ app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://create-react-app-site-production-0690.up.railway.app'], // Adicione os URLs do frontend aqui
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://create-react-app-site-production-0690.up.railway.app'], // Adicione os URLs do frontend aqui
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Especifique os métodos permitidos
   })
 );
