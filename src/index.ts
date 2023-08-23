@@ -5,7 +5,7 @@ import cors from 'cors';
 const prisma = new PrismaClient();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
@@ -25,6 +25,11 @@ app.get("/todos", async (req, res) => {
   res.json(todos);
 });
 
+app.get('/users', async (req, res) => {
+  const users = await prisma.cadastro.findMany()
+  res.json(users)
+})
+
 app.post("/todos", async (req, res) => {
   const todo = await prisma.todo.create({
     data: {
@@ -33,6 +38,8 @@ app.post("/todos", async (req, res) => {
       text: req.body.text ?? "Empty todo",
     },
   });
+
+  
 
   return res.json(todo);
 });
@@ -56,6 +63,32 @@ app.post("/cadastros", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    // Busque o usuário pelo email
+    const user = await prisma.cadastro.findFirst({
+      where: { email: email },
+    });
+
+    if (!user) {
+      // Usuário não encontrado
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    if (user.senha !== senha) {
+      // Senha incorreta
+      return res.status(401).json({ error: "Senha incorreta" });
+    }
+
+    // Login bem-sucedido
+    return res.json({ message: "Login bem-sucedido" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Erro interno do servidor" });
+  }
+});
 app.get("/testes", async (req, res) => {
   try {
     const testes = await prisma.teste.findMany({
