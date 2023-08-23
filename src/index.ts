@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
+import cors from 'cors';
 
 const prisma = new PrismaClient();
 
@@ -9,6 +10,12 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://create-react-app-site-production-0690.up.railway.app'], // Adicione os URLs do frontend aqui
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Especifique os métodos permitidos
+  })
+);
 
 app.get("/todos", async (req, res) => {
   const todos = await prisma.todo.findMany({
