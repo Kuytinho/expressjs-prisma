@@ -10,12 +10,12 @@ const port = process.env.PORT || 3002;
 app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
-app.use(
-  cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'https://jokenpodokuytinho.up.railway.app/login', 'https://jokenpodokuytinho.up.railway.app/cadastro'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  })
-);
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://jokenpodokuytinho.up.railway.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+};
+
+app.use(cors(corsOptions));
 
 app.get("/todos", async (req, res) => {
   const todos = await prisma.todo.findMany({
