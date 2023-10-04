@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://jokenpodokuytinho.up.railway.app'],
+  origin: ['https://jokenpodokuytinho.up.railway.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 
